@@ -1,0 +1,57 @@
+<div class="new-note">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <input
+        [(ngModel)]="title"
+        (focus)="changeTitleFocusStatus($event)"
+        (blur)="changeTitleFocusStatus($event)"
+        class="form-control"
+        id="focusedInput"
+        type="text"
+        placeholder="Note Title"
+      />
+    </div>
+    <div *ngIf="bodyShown" class="panel-body">
+      <textarea
+        #notecontent
+        [(ngModel)]="content"
+        (focus)="changeBodyFocusStatus($event)"
+        (blur)="changeBodyFocusStatus($event)"
+        class="form-control"
+        id="focusedInput"
+        type="text"
+        placeholder="Content"
+        rows="10"
+      ></textarea>
+      <div id="flexsave">
+        <a href="/overview" (click)="save()" class="btn btn-default">Save</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="grid-container">
+  <div class="grid-item" *ngFor="let note of currentNotes; let i = index">
+    <div class="panel panel-success" (click)="openEditDialog(note)">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{ note.title }}</h3>
+        <button
+          type="button"
+          class="btn btn-default btn-xs"
+          aria-label="Left Align"
+          (click)="delete(note)"
+          href="/overview"
+        >
+          <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+        </button>
+      </div>
+      <div class="panel-body">{{ note.content }}</div>
+    </div>
+  </div>
+</div>
+
+<app-note-detail
+  (closeEvent)="isOpenEdit()"
+  *ngIf="showDetails"
+  [note]="currentNote"
+></app-note-detail>
